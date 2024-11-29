@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api  # Updated name here to 'api'
+spec:
+  replicas: {{ .Values.api.replicas }}
+  selector:
+    matchLabels:
+      app: api  # Updated selector label to 'api'
+  template:
+    metadata:
+      labels:
+        app: api  # Updated pod label to 'api'
+    spec:
+      containers:
+        - name: api  # Container name updated to 'api'
+          image: {{ .Values.api.image }}
+          ports:
+            - containerPort: {{ .Values.api.port }}
+          env:
+            - name: MONGODB_URI
+              value: {{ .Values.api.mongoUri }}
+            - name: MONGODB_INITDB_ROOT_USERNAME
+              value: {{ .Values.api.username }}
+            - name: MONGODB_INITDB_ROOT_PASSWORD
+              value: {{ .Values.api.password }}
+---
+# Service resource to expose the API application
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service  # Name of the service to expose the API
+spec:
+  selector:
+    app: api  # Select pods with the label 'app: api' to route traffic to them
+  ports:
+    - protocol: TCP  # Protocol used by the service (TCP in this case)
+      port: 3001  # Port exposed by the service
+      targetPort: {{ .Values.api.port }}  # Port on the container to forward traffic to
+  type: LoadBalancer

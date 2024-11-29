@@ -1,0 +1,37 @@
+# Deployment resource for the Frontend application
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend  # Name of the deployment
+spec:
+  replicas: {{ .Values.frontend.replicas }}  # Number of replicas to run for the frontend pods
+  selector:
+    matchLabels:
+      app: frontend  # Label selector to match the pods created by this deployment
+  template:
+    metadata:
+      labels:
+        app: frontend  # Label attached to the pod for identification
+    spec:
+      containers:
+        - name: frontend  # Container name for the frontend application
+          image: {{ .Values.frontend.image }}  # Docker image for the frontend container
+          ports:
+            - containerPort: {{ .Values.frontend.port }}  # Port on which the container will listen
+          env:
+            - name: REACT_APP_API_URL
+              value: "http://api-service:3001/api"
+---
+# Service resource to expose the Frontend application
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service  # Name of the service to expose the frontend
+spec:
+  selector:
+    app: frontend  # Select pods with the label 'app: frontend' to route traffic to them
+  ports:
+    - protocol: TCP  # Protocol used by the service (TCP in this case)
+      port: 80  # Port exposed by the service
+      targetPort: {{ .Values.frontend.port }}  # Port on the container to forward traffic to
+  type: LoadBalancer  # Expose the service with a load balancer to allow external access
