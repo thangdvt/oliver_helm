@@ -1,16 +1,13 @@
-#apiVersion: v1
-#entries: {}
-#generated: "2024-11-29T19:12:08.821789682+07:00"
-ApiVersion: v1
+apiVersion: v1
 entries:
-  alpine:
-    - created: 2016-10-06T16:23:20.499814565-06:00
-      description: deploy
-      digest: 99c76e403d752c84ead610644d4b1c2f2b453a74b921f422b9dcb8a7c8b559cd
-      home: https://github.com/thangdvt/oliver_helm
-      name: alpine
-      sources:
-      - hhttps://github.com/thangdvt/oliver_helm
-      urls:
-      - https://github.com/thangdvt/oliver_helm/blob/main/charts/my-app-1.0.0.tgz
-      version: 0.2.0
+  my-app:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2024-11-29T19:44:10.475654056+07:00"
+    description: A web application consisting of frontend, backend (API), and MongoDB
+    digest: 8595c28a175d2d42c87d808fb037fc7317cbea5b60f0f7c97efceda5258aef0d
+    name: my-app
+    urls:
+    - https://github.com/thangdvt/oliver_helm/my-app-1.0.0.tgz
+    version: 1.0.0
+generated: "2024-11-29T19:44:10.4737666+07:00"
